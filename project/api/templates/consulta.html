@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+</head>
+<body>
+    <h2>Los valores en pesos, el promedio, valor máximo y mínimo de las UDIS del {{fechaIni}} al {{fechaFin}}</h2>
+    <table border='1'>
+        <thead>
+         <tr>
+           <th>Fecha</th>
+           <th>UDI</th>
+         </tr>
+        </thead>
+        <tbody>
+           
+              {% for col in udis %}
+                <tr>
+                  <td>{{ col.fecha }}</td><td>{{ col.dato }}</td>
+                </tr>
+              {% endfor %}
+           
+        </tbody>
+    </table>
+    <table border='1'>
+        <thead>
+         <tr>
+           <th>Concepto</th>
+           <th>Valor</th>
+         </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Promedio</td><td>{{ promedioUdi }}</td>
+            </tr>  
+            <tr>
+                <td>Mínimo</td><td>{{ minimoUDI }}</td>
+            </tr>   
+            <tr>
+                <td>Máximo</td><td>{{ maximoUDI }}</td>
+            </tr>            
+        </tbody>
+    </table>
+    <div style="width: 100%; height: 20em; margin-top: 3em;">
+      <canvas id="myChart" style="margin-bottom: 30px; width: 90%; height: 100%;"></canvas>
+      </div>
+      <script>
+          const ctx = document.getElementById('myChart').getContext('2d');
+          const labelsUDI = {{ labelsUDI | safe  }};
+          const dataUDI = {{ dataUDI | safe }};
+
+          
+
+          // Render the chart
+          const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: labelsUDI,
+              datasets: [{ 
+                  data: dataUDI,
+                  label: "UDIS",
+                  borderColor: "#3e95cd",
+                  fill: false
+                }
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'Gráfico que despliegue los valores de las UDIS del {{fechaIni}} al {{fechaFin}}'
+              }
+            }
+          });
+    </script>   
+    <br>
+    <h2>Valores del dólar, el promedio, valor máximo y mínimo del {{fechaIni}} al {{fechaFin}}</h2>
+    <p>"Tipo de cambio pesos por dólar E.U.A. - Tipo de cambio para solventar obligaciones denominadas en moneda extranjera - Fecha de liquidación"</p>
+    <table border='1'>
+        <thead>
+         <tr>
+           <th>Fecha</th>
+           <th>Pesos</th>
+         </tr>
+        </thead>
+        <tbody>
+           
+              {% for col in liquidacion_dll %}
+                <tr>
+                  <td>{{ col.fecha }}</td><td>{{ col.dato }}</td>
+                </tr>
+              {% endfor %}
+           
+        </tbody>
+    </table>
+    <table border='1'>
+        <thead>
+         <tr>
+           <th>Concepto</th>
+           <th>Valor</th>
+         </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Promedio</td><td>{{ promedioLiq }}</td>
+            </tr>  
+            <tr>
+                <td>Mínimo</td><td>{{ minimoLiq }}</td>
+            </tr>   
+            <tr>
+                <td>Máximo</td><td>{{ maximoLiq }}</td>
+            </tr>            
+        </tbody>
+    </table>
+    <div style="width: 100%; height: 20em; margin-top: 3em;">
+      <canvas id="myChart1" style="margin-bottom: 30px; width: 90%; height: 100%;"></canvas>
+      </div>
+      <script>
+          const ctx1 = document.getElementById('myChart1').getContext('2d');
+          const labelsLiq = {{ labelsLiq | safe  }};
+          const dataLiq = {{ dataLiq | safe }};
+
+          
+
+          // Render the chart
+          const chart1 = new Chart(ctx1, {
+            type: 'line',
+            data: {
+              labels: labelsLiq,
+              datasets: [{ 
+                  data: dataLiq,
+                  label: "Fecha de liquidación",
+                  borderColor: "#3e95cd",
+                  fill: false
+                }
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'Tipo de cambio pesos por dólar E.U.A. del {{fechaIni}} al {{fechaFin}}'
+              }
+            }
+          });
+    </script>   
+    <br>
+    <p>"Tipo de cambio Pesos por dólar E.U.A. - Tipo de cambio para solventar obligaciones denominadas en moneda extranjera - Fecha de determinación (FIX)"</p>
+    <table border='1'>
+        <thead>
+         <tr>
+           <th>Fecha</th>
+           <th>Pesos</th>
+         </tr>
+        </thead>
+        <tbody>
+           
+              {% for col in fix_dll %}
+                <tr>
+                  <td>{{ col.fecha }}</td><td>{{ col.dato }}</td>
+                </tr>
+              {% endfor %}
+           
+        </tbody>
+    </table>
+    <table border='1'>
+        <thead>
+         <tr>
+           <th>Concepto</th>
+           <th>Valor</th>
+         </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Promedio</td><td>{{ promedioFix }}</td>
+            </tr>  
+            <tr>
+                <td>Mínimo</td><td>{{ minimoFix }}</td>
+            </tr>   
+            <tr>
+                <td>Máximo</td><td>{{ maximoFix }}</td>
+            </tr>            
+        </tbody>
+    </table>
+    
+
+    <div style="width: 100%; height: 20em; margin-top: 3em;">
+      <canvas id="myChart2" style="margin-bottom: 30px; width: 90%; height: 100%;"></canvas>
+      </div>
+      <script>
+          const ctx2 = document.getElementById('myChart2').getContext('2d');
+          const labelsFix = {{ labelsFix | safe  }};
+          const dataFix = {{ dataFix | safe }};
+
+          
+
+          // Render the chart
+          const chart2 = new Chart(ctx2, {
+            type: 'line',
+            data: {
+              labels: labelsFix,
+              datasets: [{ 
+                  data: dataFix,
+                  label: "Fecha de determinación (FIX)",
+                  borderColor: "#3e95cd",
+                  fill: false
+                }
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'Tipo de cambio pesos por dólar E.U.A. del {{fechaIni}} al {{fechaFin}}'
+              }
+            }
+          });
+    </script>   
+    <br>
+    
+</body>
+</html>
